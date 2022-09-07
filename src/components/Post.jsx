@@ -1,15 +1,15 @@
 import React from "react";
 
-const Post = ({ title, body, id, onRemove, onUpdate }) => {
-  const dataInput = { title, body, id };
+const Post = ({ content, description, id, onRemove, onUpdate }) => {
+  const dataInput = { content, description, id };
   return (
     <>
       <div className=" post mx-auto">
         <div className="content">
-          <p className="title"> {title} </p>
-          <p className="desc"> {body} </p>
+          <p className="title"> {content} </p>
+          <p className="desc"> {description} </p>
           <div className="d-flex justify-content-end">
-            <button className="update ms-2" onClick={() => onUpdate(id)}>
+            <button className="update ms-2" onClick={() => onUpdate(dataInput)}>
               Update
             </button>
             <button className="remove me-2" onClick={() => onRemove(id)}>
