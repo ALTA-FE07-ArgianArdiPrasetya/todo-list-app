@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Post from "../components/Post";
@@ -7,8 +5,10 @@ import "./Home.css";
 
 const Home = () => {
   const [post, setPost] = useState([]);
+  const [id, setId] = useState(0);
   const [content, setContent] = useState("");
   const [description, setDescription] = useState("");
+  const [isUpdate, setIsUpdate] = useState(false);
 
   useEffect(() => {
     apiGet();
@@ -36,6 +36,7 @@ const Home = () => {
   };
 
   const handleRemove = (id) => {
+    console.log(id);
     var axios = require("axios");
 
     var config = {
@@ -68,7 +69,6 @@ const Home = () => {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer 4589625df8f7f3d1d31ac3276a8edf55f75599a2",
-        Cookie: "csrf=f006526ef2984326b837c7362bfbdd02",
       },
       data: data,
     };
@@ -76,25 +76,65 @@ const Home = () => {
     axios(config)
       .then(function (response) {
         apiGet();
-        setContent(" ");
-        setDescription(" ");
+        setContent("");
+        setDescription("");
+        setId("");
       })
       .catch(function (error) {
         console.log(error);
       });
   };
 
-  //   handleSubmit
+  const apiPut = () => {
+    var axios = require("axios");
+    var data = JSON.stringify({
+      content: content,
+      description: description,
+    });
+
+    var config = {
+      method: "post",
+      url: `https://api.todoist.com/rest/v1/tasks/${id}`,
+      headers: {
+        Authorization: "Bearer 4589625df8f7f3d1d31ac3276a8edf55f75599a2",
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        apiGet();
+        setIsUpdate(false);
+        setContent("");
+        setDescription("");
+        setId(0);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    apiPost();
+    if (isUpdate) {
+      apiPut();
+    } else {
+      apiPost();
+    }
+  };
+
+  const handleUpdate = (dataInput) => {
+    setId(dataInput.id);
+    setContent(dataInput.content);
+    setDescription(dataInput.description);
+    setIsUpdate(true);
   };
 
   return (
     <>
       <Container>
         <h1 className="text-center mt-4">TODOS</h1>
-
         <form
           className="form-add-post mx-auto"
           onSubmit={(e) => handleSubmit(e)}
@@ -105,6 +145,7 @@ const Home = () => {
             type="text"
             id="title"
             placeholder="What do you want todo"
+            value={content}
             onChange={(e) => setContent(e.target.value)}
           />
           <label htmlFor="body-content">Description</label>
@@ -113,6 +154,7 @@ const Home = () => {
             cols="10"
             rows="5"
             placeholder="Add the description"
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
           <button className="btn-submit">Save</button>
@@ -123,8 +165,8 @@ const Home = () => {
         {post.map((item) => {
           return (
             <Post
-              title={item.content}
-              body={item.description}
+              content={item.content}
+              description={item.description}
               id={item.id}
               key={item.id}
               onRemove={handleRemove}
