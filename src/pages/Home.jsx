@@ -21,7 +21,7 @@ const Home = () => {
       method: "get",
       url: "https://api.todoist.com/rest/v1/tasks",
       headers: {
-        Authorization: "Bearer d33a393138d1d838570fb4a6447d2062b8a60d3c",
+        Authorization: "Bearer 116b5d5c9d605ef0f00a8f04cc26095f633b2088",
       },
     };
 
@@ -43,7 +43,7 @@ const Home = () => {
       method: "delete",
       url: `https://api.todoist.com/rest/v1/tasks/${id}`,
       headers: {
-        Authorization: "Bearer d33a393138d1d838570fb4a6447d2062b8a60d3c",
+        Authorization: "Bearer 116b5d5c9d605ef0f00a8f04cc26095f633b2088",
       },
     };
 
@@ -68,7 +68,7 @@ const Home = () => {
       url: "https://api.todoist.com/rest/v1/tasks",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer d33a393138d1d838570fb4a6447d2062b8a60d3c",
+        Authorization: "Bearer 116b5d5c9d605ef0f00a8f04cc26095f633b2088",
       },
       data: data,
     };
@@ -96,7 +96,7 @@ const Home = () => {
       method: "post",
       url: `https://api.todoist.com/rest/v1/tasks/${id}`,
       headers: {
-        Authorization: "Bearer d33a393138d1d838570fb4a6447d2062b8a60d3c",
+        Authorization: "Bearer 116b5d5c9d605ef0f00a8f04cc26095f633b2088",
         "Content-Type": "application/json",
       },
       data: data,
